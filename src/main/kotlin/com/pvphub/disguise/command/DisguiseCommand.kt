@@ -43,7 +43,21 @@ class DisguiseCommand(private val plugin: DisguiseVelocity) : SimpleCommand {
                 "stop", "revert", "cancel", "exit" -> {
                     // Set back to normal
                     plugin.disguised.remove(player)
-                    // update
+                    /**
+                     * We somehow need to forcefully update this player's game profile
+                     * for themselves and all online players.
+                     * We need to make sure the player can still behave normally in terms of permissions
+                     * on backend servers.
+                     *
+                     * "Fake Disconnect" the player and simulate the player join server event,
+                     * using the disguised game profile ?
+                     *
+                     * Marked as TODO
+                     */
+
+                    // disconnect from backend (while sending keep alive)
+
+                    // reconnect with this new profile ?
                 }
             }
         } else {

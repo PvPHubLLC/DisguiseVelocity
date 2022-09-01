@@ -1,0 +1,7 @@
+
+command:
+  player-only: "&#ff0033That's a player only command."
+  set:
+    missing: "&#ff0033Please provide a valid Minecraft username!"
+  exit: "&7You are no longer disguised as %player%."
+  changed: "&7You've been disguised as %player%!"

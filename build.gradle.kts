@@ -24,6 +24,7 @@ dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.1.0")
     // change if we want to, but I love a good yaml
     implementation("me.carleslc.Simple-YAML:Simple-Yaml:1.7.2")
+    implementation("com.github.javafaker:javafaker:1.0.2")
     implementation(kotlin("reflect"))
 }
 

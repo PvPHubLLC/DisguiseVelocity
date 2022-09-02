@@ -9,6 +9,7 @@ import com.pvphub.disguise.extensions.translatableList
 import com.velocitypowered.api.command.SimpleCommand
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.util.GameProfile
+import net.kyori.adventure.text.Component
 import java.util.*
 
 class DisguiseCommand(private val plugin: DisguiseVelocity) : SimpleCommand {
@@ -31,7 +32,15 @@ class DisguiseCommand(private val plugin: DisguiseVelocity) : SimpleCommand {
                     val username = generateName()
                     // todo: Skin textures (mojang api or namemc?)
                     val gameProfile = GameProfile(uuid, username, mutableListOf())
-                    plugin.disguised[player] = gameProfile
+                    plugin.disguised[player.uniqueId] = gameProfile
+                    invocation.source().sendMessage(Component.text(username))
+                    "messages.changed"
+                        .translatableList()
+                        .map { il -> il.replace("%player%",username) }
+                        .toComponents()
+                        .forEach {invocation.source().sendMessage(it)}
+
+
                 }
                 "set" -> {
                     if (args.size <= 1) {
@@ -43,7 +52,7 @@ class DisguiseCommand(private val plugin: DisguiseVelocity) : SimpleCommand {
                 }
                 "stop", "revert", "cancel", "exit" -> {
                     // Set back to normal
-                    plugin.disguised.remove(player)
+                    plugin.disguised.remove(player.uniqueId)
                     /**
                      * We somehow need to forcefully update this player's game profile
                      * for themselves and all online players.
@@ -70,9 +79,9 @@ class DisguiseCommand(private val plugin: DisguiseVelocity) : SimpleCommand {
         return super.suggest(invocation)
     }
 
-    fun generateName(): String {
+    private fun generateName(): String {
         val faker = Faker()
-        return faker.superhero().prefix()+faker.name().firstName()+faker.address().buildingNumber()
+        return faker.superhero().prefix()+faker.name().firstName()
     }
 
 }

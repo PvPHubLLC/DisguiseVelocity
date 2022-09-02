@@ -1,7 +1,9 @@
 package com.pvphub.disguise
 
+import com.pvphub.disguise.command.DisguiseCommand
 import com.pvphub.disguise.util.Config
 import com.pvphub.disguise.util.VelocityPlugin
+import com.velocitypowered.api.command.CommandMeta
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.plugin.Plugin
@@ -13,7 +15,9 @@ import org.simpleyaml.configuration.file.FileConfiguration
 import java.io.File
 import java.nio.file.Path
 import java.util.logging.Logger
-import javax.inject.Inject
+import com.google.inject.Inject
+import com.pvphub.disguise.listeners.Listener
+import java.util.UUID
 import kotlin.io.path.absolutePathString
 
 @Plugin(
@@ -23,7 +27,7 @@ import kotlin.io.path.absolutePathString
     description = "Allow your players to hide themselves as other players!",
     authors = ["MattMX"]
 )
-class DisguiseVelocity(
+class DisguiseVelocity @Inject constructor(
     server: ProxyServer,
     logger: Logger,
     @DataDirectory
@@ -31,7 +35,7 @@ class DisguiseVelocity(
 ) : VelocityPlugin(server, logger, dataDirectory) {
 
     val config = Config["${dataDirectory.absolutePathString()}/config.yml", "config.yml", this];
-    val disguised = hashMapOf<Player, GameProfile>()
+    val disguised = hashMapOf<UUID, GameProfile>()
 
     init {
         instance = this
@@ -39,7 +43,8 @@ class DisguiseVelocity(
 
     @Subscribe
     fun onProxyInitializeEvent(e: ProxyInitializeEvent) {
-
+        server.commandManager.register("disguise",DisguiseCommand(this))
+        server.eventManager.register(this,Listener(this))
     }
 
     fun version() : String {

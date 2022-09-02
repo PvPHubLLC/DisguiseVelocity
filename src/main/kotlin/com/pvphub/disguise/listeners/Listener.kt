@@ -8,7 +8,7 @@ class Listener(private val plugin: DisguiseVelocity) {
 
     @Subscribe
     fun onRequestGameProfile(e: GameProfileRequestEvent) {
-        val results = plugin.disguised.filter { v -> v.key.username == e.username }
+        val results = plugin.disguised.filter { v -> v.key == e.originalProfile.id }
         if (results.isEmpty()) {
             return
         }

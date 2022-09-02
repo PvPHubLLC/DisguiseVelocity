@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
+    kotlin("kapt") version "1.7.10"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
@@ -22,6 +23,7 @@ dependencies {
     testImplementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
     compileOnly("com.velocitypowered:velocity-api:3.1.0")
+    kapt("com.velocitypowered:velocity-api:3.1.0")
     // change if we want to, but I love a good yaml
     implementation("me.carleslc.Simple-YAML:Simple-Yaml:1.7.2")
     implementation("com.github.javafaker:javafaker:1.0.2")
